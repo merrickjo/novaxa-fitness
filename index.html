@@ -4,114 +4,117 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Novaxa — Personalized Exercise Sets</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined">
 <style>
   :root{
-    --bg:#0b0e14;
-    --panel:#131824;
-    --panel2:#1a2130;
-    --line:#232b3d;
-    --text:#eef2f8;
-    --sub:#8b95a7;
-    --accent:#5eead4;
-    --accent2:#60a5fa;
-    --warn:#f59e0b;
-    --danger:#fb7185;
-    --tier1:#4ade80;
-    --tier2:#fbbf24;
-    --tier3:#fb7185;
-    --radius:14px;
+    /* Narrowkind Design System tokens */
+    --field-base:#1E2320;
+    --field-raised:#2B3129;
+    --field-cover:#B35A2E;
+    --card-cream:#F5F1E8;
+    --accent-gold:#E3A15C;
+    --border-hairline-on-dark: rgba(245,241,232,0.25);
+    --border-hairline-on-dark-soft: rgba(245,241,232,0.15);
+    --text-dim: rgba(245,241,232,0.6);
+    --font-sans: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --radius:0px;
+    --radius-tag:2px;
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
   body{
-    background:radial-gradient(1200px 800px at 80% -10%, #17233a 0%, var(--bg) 55%);
-    color:var(--text);
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--field-base);
+    color:var(--card-cream);
+    font-family:var(--font-sans);
     min-height:100vh;
   }
-  .wrap{max-width:760px;margin:0 auto;padding:28px 18px 60px;}
-  header{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;}
-  header h1{font-size:20px;margin:0;letter-spacing:.2px;}
-  header .badge{font-size:11px;color:var(--sub);background:var(--panel2);border:1px solid var(--line);padding:4px 10px;border-radius:100px;}
-  .card{background:linear-gradient(180deg,var(--panel) 0%, var(--panel2) 100%);border:1px solid var(--line);border-radius:var(--radius);padding:20px;margin-bottom:16px;}
-  .card h2{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--sub);margin:0 0 14px;}
+  .wrap{max-width:640px;margin:0 auto;padding:48px 24px 96px;}
+  header{display:flex;align-items:center;justify-content:space-between;margin-bottom:32px;border-bottom:1px solid var(--border-hairline-on-dark);padding-bottom:24px;}
+  header h1{font-size:24px;font-weight:800;margin:0;letter-spacing:-0.01em;}
+  header .badge{font-size:13px;font-weight:700;letter-spacing:.02em;color:var(--field-base);background:var(--accent-gold);padding:4px 10px;border-radius:var(--radius-tag);}
+  .card{background:var(--field-raised);border:1px solid var(--border-hairline-on-dark-soft);border-radius:var(--radius);padding:24px;margin-bottom:16px;}
+  .card h2{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--accent-gold);margin:0 0 16px;}
   label.field{display:block;margin-bottom:16px;}
   label.field:last-child{margin-bottom:0;}
-  .rowlabel{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;}
-  .rowlabel span.name{font-size:14px;font-weight:600;}
-  .rowlabel span.val{font-size:13px;color:var(--accent);font-weight:600;}
-  input[type=range]{width:100%;accent-color:var(--accent);height:6px;}
-  .recovery-scale{display:flex;justify-content:space-between;font-size:11px;color:var(--sub);margin-top:4px;}
+  .rowlabel{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;}
+  .rowlabel span.name{font-size:14px;font-weight:700;}
+  .rowlabel span.val{font-size:14px;color:var(--accent-gold);font-weight:700;}
+  input[type=range]{-webkit-appearance:none;appearance:none;width:100%;background:transparent;height:4px;margin:8px 0;}
+  input[type=range]::-webkit-slider-runnable-track{height:4px;background:rgba(245,241,232,0.2);border-radius:0;}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;background:var(--accent-gold);border-radius:50%;margin-top:-6px;cursor:pointer;}
+  input[type=range]::-moz-range-track{height:4px;background:rgba(245,241,232,0.2);}
+  input[type=range]::-moz-range-thumb{width:16px;height:16px;background:var(--accent-gold);border:none;border-radius:50%;cursor:pointer;}
+  .recovery-scale{display:flex;justify-content:space-between;font-size:12px;color:var(--text-dim);margin-top:6px;}
   .seg{display:flex;gap:8px;flex-wrap:wrap;}
   .seg button{
     flex:1 1 auto;min-width:90px;
-    background:var(--panel2);border:1px solid var(--line);color:var(--text);
-    padding:10px 12px;border-radius:10px;font-size:13px;cursor:pointer;transition:.15s;
+    background:transparent;border:1px solid var(--border-hairline-on-dark);color:var(--card-cream);
+    padding:10px 12px;border-radius:var(--radius);font-size:13px;font-weight:700;font-family:var(--font-sans);cursor:pointer;
   }
-  .seg button.active{background:rgba(94,234,212,.14);border-color:var(--accent);color:var(--accent);}
-  .seg button:hover{border-color:#3a4562;}
+  .seg button.active{border-color:var(--accent-gold);color:var(--accent-gold);}
   .equip-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
   @media (max-width:520px){.equip-grid{grid-template-columns:1fr;}}
   .equip-item{
-    background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px 12px;
-    display:flex;flex-direction:column;gap:8px;cursor:pointer;transition:.15s;
+    background:transparent;border:1px solid var(--border-hairline-on-dark);border-radius:var(--radius);padding:10px 12px;
+    display:flex;flex-direction:column;gap:8px;
   }
-  .equip-item.active{border-color:var(--accent2);background:rgba(96,165,250,.10);}
   .equip-item .top{display:flex;align-items:center;gap:10px;}
-  .equip-item input[type=checkbox]{width:16px;height:16px;accent-color:var(--accent2);}
-  .equip-item .label{font-size:13.5px;font-weight:500;}
+  .equip-item input[type=checkbox]{width:16px;height:16px;accent-color:var(--accent-gold);}
+  .equip-item .label{font-size:13.5px;font-weight:700;}
   .equip-item .kg-row{display:flex;align-items:center;gap:8px;margin-top:2px;}
   .equip-item .kg-row input{
-    width:70px;background:var(--bg);border:1px solid var(--line);color:var(--text);
-    border-radius:8px;padding:6px 8px;font-size:13px;
+    width:70px;background:var(--field-base);border:1px solid var(--border-hairline-on-dark);color:var(--card-cream);
+    border-radius:var(--radius);padding:6px 8px;font-size:13px;font-family:var(--font-sans);
   }
-  .equip-item .kg-row span{font-size:11.5px;color:var(--sub);}
+  .equip-item .kg-row span{font-size:11.5px;color:var(--text-dim);}
   .btn-primary{
-    width:100%;padding:15px;border:none;border-radius:12px;font-size:15px;font-weight:700;
-    background:linear-gradient(180deg,var(--accent) 0%, #34d0b8 100%);color:#04211c;cursor:pointer;
-    letter-spacing:.2px;
+    width:100%;padding:16px;border:1px solid var(--accent-gold);border-radius:var(--radius);font-size:15px;font-weight:800;
+    background:var(--accent-gold);color:var(--field-base);cursor:pointer;font-family:var(--font-sans);letter-spacing:.01em;
   }
   .btn-primary:disabled{opacity:.4;cursor:not-allowed;}
-  .hint{font-size:12px;color:var(--sub);margin-top:10px;line-height:1.5;}
-  .error{color:var(--danger);font-size:12.5px;margin-top:10px;display:none;}
+  .hint{font-size:12px;color:var(--text-dim);margin-top:10px;line-height:1.5;}
+  .error{color:var(--field-cover);font-size:12.5px;font-weight:700;margin-top:12px;display:none;}
 
   /* Timer / session screen */
   #sessionScreen{display:none;}
-  .session-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
-  .back-link{font-size:13px;color:var(--sub);cursor:pointer;background:none;border:none;padding:0;}
-  .overall-bar{height:5px;background:var(--panel2);border-radius:100px;overflow:hidden;margin-bottom:22px;}
-  .overall-bar > div{height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent));width:0%;transition:width .3s linear;}
+  .session-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+  .back-link{font-size:13px;font-weight:700;color:var(--card-cream);text-decoration:underline;text-underline-offset:4px;cursor:pointer;background:none;border:none;padding:0;font-family:var(--font-sans);}
+  .overall-bar{height:4px;background:rgba(245,241,232,0.15);border-radius:0;overflow:hidden;margin-bottom:28px;}
+  .overall-bar > div{height:100%;background:var(--accent-gold);width:0%;transition:width .3s linear;}
   .phase-pill{
-    display:inline-block;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
-    padding:5px 12px;border-radius:100px;margin-bottom:14px;
+    display:inline-block;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+    margin-bottom:16px;
   }
-  .phase-pill.warmup{background:rgba(96,165,250,.15);color:var(--accent2);}
-  .phase-pill.work{background:rgba(94,234,212,.15);color:var(--accent);}
-  .phase-pill.rest{background:rgba(251,191,36,.15);color:var(--tier2);}
-  .phase-pill.cooldown{background:rgba(96,165,250,.15);color:var(--accent2);}
-  .exercise-name{font-size:26px;font-weight:800;margin:0 0 6px;}
-  .exercise-cue{font-size:14.5px;color:var(--sub);margin:0 0 22px;min-height:20px;}
-  .timer-circle-wrap{display:flex;justify-content:center;margin:10px 0 24px;}
+  .phase-pill.warmup{color:var(--field-cover);}
+  .phase-pill.work{color:var(--accent-gold);}
+  .phase-pill.rest{color:var(--text-dim);}
+  .phase-pill.cooldown{color:var(--field-cover);}
+  .exercise-name{font-size:32px;font-weight:800;margin:0 0 8px;line-height:1.05;}
+  .exercise-cue{font-size:14.5px;color:var(--text-dim);margin:0 0 28px;min-height:20px;}
+  .timer-circle-wrap{display:flex;justify-content:center;margin:10px 0 28px;}
   .timer-num{font-size:64px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-1px;}
-  .up-next{font-size:12.5px;color:var(--sub);text-align:center;margin-bottom:24px;}
-  .up-next b{color:var(--text);font-weight:600;}
-  .controls{display:flex;gap:10px;margin-bottom:22px;}
+  .up-next{font-size:12.5px;color:var(--text-dim);text-align:center;margin-bottom:28px;}
+  .up-next b{color:var(--card-cream);font-weight:700;}
+  .controls{display:flex;gap:10px;margin-bottom:28px;}
   .controls button{
-    flex:1;padding:13px;border-radius:12px;border:1px solid var(--line);background:var(--panel2);
-    color:var(--text);font-size:14px;font-weight:600;cursor:pointer;
+    flex:1;padding:13px;border-radius:var(--radius);border:1px solid var(--border-hairline-on-dark);background:transparent;
+    color:var(--card-cream);font-size:14px;font-weight:700;font-family:var(--font-sans);cursor:pointer;
+    display:flex;align-items:center;justify-content:center;gap:6px;
   }
-  .controls button.primary{background:var(--accent);color:#04211c;border-color:var(--accent);}
-  .plan-list{max-height:260px;overflow-y:auto;border-top:1px solid var(--line);}
+  .controls button .material-symbols-outlined{font-size:18px;}
+  .controls button.primary{background:var(--accent-gold);color:var(--field-base);border-color:var(--accent-gold);font-weight:800;}
+  .plan-list{max-height:260px;overflow-y:auto;border-top:1px solid var(--border-hairline-on-dark-soft);}
   .plan-row{
-    display:flex;justify-content:space-between;align-items:center;padding:9px 4px;
-    border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);
+    display:flex;justify-content:space-between;align-items:center;padding:10px 4px;
+    border-bottom:1px solid var(--border-hairline-on-dark-soft);font-size:13px;color:var(--text-dim);
   }
-  .plan-row.current{color:var(--text);font-weight:700;}
-  .plan-row .tag{font-size:10.5px;padding:2px 7px;border-radius:100px;background:var(--panel2);margin-left:8px;}
-  .tier-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:7px;}
-  #doneScreen{display:none;text-align:center;padding:40px 0;}
-  #doneScreen h2{font-size:24px;margin-bottom:8px;}
-  #doneScreen p{color:var(--sub);font-size:14px;margin-bottom:26px;}
+  .plan-row.current{color:var(--card-cream);font-weight:800;}
+  .plan-row .tag{font-size:10.5px;padding:3px 8px;border-radius:var(--radius-tag);background:rgba(245,241,232,0.1);color:var(--text-dim);margin-left:8px;font-weight:700;}
+  .plan-row.current .tag{background:var(--accent-gold);color:var(--field-base);}
+  .tier-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:8px;}
+  #doneScreen{display:none;text-align:center;padding:64px 0;}
+  #doneScreen h2{font-size:32px;font-weight:800;margin:0 0 12px;}
+  #doneScreen p{color:var(--text-dim);font-size:14px;margin:0 0 32px;}
 </style>
 </head>
 <body>
@@ -119,7 +122,7 @@
 
   <header>
     <h1>Novaxa</h1>
-    <span class="badge">Personalized Exercise Sets · build 2026-07-07.2</span>
+    <span class="badge">Personalized Exercise Sets · build 2026-07-07.3</span>
   </header>
 
   <!-- SETUP SCREEN -->
@@ -156,10 +159,11 @@
     <div class="card">
       <h2>Time</h2>
       <div class="seg" id="timeSeg">
+        <button data-time="10">10 min</button>
         <button data-time="20" class="active">20 min</button>
         <button data-time="30">30 min</button>
       </div>
-      <div class="hint">Includes a 2–3 min warm-up and 2–3 min cool-down inside the total time.</div>
+      <div class="hint">Includes a warm-up and cool-down inside the total time.</div>
     </div>
 
     <button class="btn-primary" id="generateBtn">Generate Workout</button>
@@ -183,9 +187,9 @@
     <div class="up-next" id="upNext">Up next: —</div>
 
     <div class="controls">
-      <button id="skipBtn">Skip ⏭</button>
-      <button class="primary" id="pauseBtn">Pause</button>
-      <button id="restartBtn">Restart ↺</button>
+      <button id="skipBtn"><span class="material-symbols-outlined">skip_next</span>Skip</button>
+      <button class="primary" id="pauseBtn"><span class="material-symbols-outlined">pause</span>Pause</button>
+      <button id="restartBtn"><span class="material-symbols-outlined">restart_alt</span>Restart</button>
     </div>
 
     <div class="plan-list" id="planList"></div>
@@ -193,7 +197,7 @@
 
   <!-- DONE SCREEN -->
   <div id="doneScreen">
-    <h2>Workout complete 💪</h2>
+    <h2>Workout complete</h2>
     <p id="doneSummary">Nice work.</p>
     <button class="btn-primary" id="doneBtn" style="max-width:280px;margin:0 auto;">Build another set</button>
   </div>
@@ -483,8 +487,8 @@ function generateWorkout(params){
   const equipSet = new Set(equipment); // only what the user actually checked
   const warmupEquipSet = new Set(['bodyweight', ...equipment]); // mobility work needs no gear either way
   const totalSeconds = minutes * 60;
-  const warmupSeconds = minutes === 20 ? 120 : 150; // 2 or 2.5 min
-  const cooldownSeconds = minutes === 20 ? 120 : 150;
+  const warmupSeconds = minutes === 10 ? 60 : (minutes === 20 ? 120 : 150);
+  const cooldownSeconds = minutes === 10 ? 60 : (minutes === 20 ? 120 : 150);
   const mainSeconds = totalSeconds - warmupSeconds - cooldownSeconds;
 
   const {band, work, rest, tiers} = recoveryBand(recovery);
@@ -505,7 +509,7 @@ function generateWorkout(params){
   const recentMuscles = getRecentMuscles(history, RECENCY_WINDOW_HOURS);
   const recentNames = getRecentNames(history, RECENCY_WINDOW_HOURS);
 
-  const exCount = minutes === 20 ? 5 : 6;
+  const exCount = minutes === 10 ? 3 : (minutes === 20 ? 5 : 6);
   let chosen = buildMainSelection({
     pool, focus, tiersAllowed: tiers, count: Math.min(exCount, Math.max(3, pool.length)),
     equipmentChecked: equipment, recentMuscles, recentNames
@@ -653,13 +657,10 @@ document.querySelectorAll('#equipGrid .equip-item').forEach(div => {
   const saved = state.equipment[key];
   if (saved && saved.checked){
     cb.checked = true;
-    div.classList.add('active');
   }
   if (saved && saved.kg && kgInput) kgInput.value = saved.kg;
 
-  cb.addEventListener('change', () => {
-    div.classList.toggle('active', cb.checked);
-  });
+  cb.addEventListener('change', () => {});
   if (kgInput){
     kgInput.addEventListener('input', () => {});
   }
@@ -755,6 +756,11 @@ function startSession(workout){
   tick();
 }
 
+function tierColor(step){
+  if (step.kind !== 'work') return 'rgba(245,241,232,0.4)';
+  return step.tier === 3 ? 'var(--field-cover)' : step.tier === 2 ? 'var(--accent-gold)' : 'rgba(245,241,232,0.5)';
+}
+
 function renderPlanList(){
   const list = document.getElementById('planList');
   list.innerHTML = '';
@@ -762,8 +768,7 @@ function renderPlanList(){
     const row = document.createElement('div');
     row.className = 'plan-row';
     row.id = 'row-' + i;
-    const tierColor = step.kind === 'work' ? (step.tier === 3 ? 'var(--tier3)' : step.tier === 2 ? 'var(--tier2)' : 'var(--tier1)') : 'var(--sub)';
-    row.innerHTML = `<span><span class="tier-dot" style="background:${tierColor}"></span>${step.name}</span><span class="tag">${fmt(step.seconds)}</span>`;
+    row.innerHTML = `<span><span class="tier-dot" style="background:${tierColor(step)}"></span>${step.name}</span><span class="tag">${fmt(step.seconds)}</span>`;
     list.appendChild(row);
   });
 }
@@ -781,7 +786,7 @@ function enterStep(i){
   document.getElementById('upNext').innerHTML = next ? `Up next: <b>${next.name}</b>` : 'Last one — finish strong';
   document.querySelectorAll('.plan-row').forEach(r => r.classList.remove('current'));
   const row = document.getElementById('row-' + i);
-  if (row){ row.classList.add('current'); row.scrollIntoView({block:'nearest'}); }
+  if (row){ row.classList.add('current'); }
   beep(step.kind === 'work' ? 1046 : 660, 0.15);
   updateOverall();
 }
@@ -816,7 +821,10 @@ function tick(){
 
 document.getElementById('pauseBtn').addEventListener('click', (e) => {
   paused = !paused;
-  e.target.textContent = paused ? 'Resume' : 'Pause';
+  const btn = document.getElementById('pauseBtn');
+  btn.innerHTML = paused
+    ? '<span class="material-symbols-outlined">play_arrow</span>Resume'
+    : '<span class="material-symbols-outlined">pause</span>Pause';
 });
 document.getElementById('skipBtn').addEventListener('click', () => {
   if (stepIndex + 1 < session.sequence.length) enterStep(stepIndex + 1);
