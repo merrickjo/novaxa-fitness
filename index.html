@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Novaxa — Personalized Exercise Sets</title>
+<style>
+  :root{
+    --bg:#0b0e14;
+    --panel:#131824;
+    --panel2:#1a2130;
+    --line:#232b3d;
+    --text:#eef2f8;
+    --sub:#8b95a7;
+    --accent:#5eead4;
+    --accent2:#60a5fa;
+    --warn:#f59e0b;
+    --danger:#fb7185;
+    --tier1:#4ade80;
+    --tier2:#fbbf24;
+    --tier3:#fb7185;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:radial-gradient(1200px 800px at 80% -10%, #17233a 0%, var(--bg) 55%);
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    min-height:100vh;
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:28px 18px 60px;}
+  header{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;}
+  header h1{font-size:20px;margin:0;letter-spacing:.2px;}
+  header .badge{font-size:11px;color:var(--sub);background:var(--panel2);border:1px solid var(--line);padding:4px 10px;border-radius:100px;}
+  .card{background:linear-gradient(180deg,var(--panel) 0%, var(--panel2) 100%);border:1px solid var(--line);border-radius:var(--radius);padding:20px;margin-bottom:16px;}
+  .card h2{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--sub);margin:0 0 14px;}
+  label.field{display:block;margin-bottom:16px;}
+  label.field:last-child{margin-bottom:0;}
+  .rowlabel{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;}
+  .rowlabel span.name{font-size:14px;font-weight:600;}
+  .rowlabel span.val{font-size:13px;color:var(--accent);font-weight:600;}
+  input[type=range]{width:100%;accent-color:var(--accent);height:6px;}
+  .recovery-scale{display:flex;justify-content:space-between;font-size:11px;color:var(--sub);margin-top:4px;}
+  .seg{display:flex;gap:8px;flex-wrap:wrap;}
+  .seg button{
+    flex:1 1 auto;min-width:90px;
+    background:var(--panel2);border:1px solid var(--line);color:var(--text);
+    padding:10px 12px;border-radius:10px;font-size:13px;cursor:pointer;transition:.15s;
+  }
+  .seg button.active{background:rgba(94,234,212,.14);border-color:var(--accent);color:var(--accent);}
+  .seg button:hover{border-color:#3a4562;}
+  .equip-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  @media (max-width:520px){.equip-grid{grid-template-columns:1fr;}}
+  .equip-item{
+    background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px 12px;
+    display:flex;flex-direction:column;gap:8px;cursor:pointer;transition:.15s;
+  }
+  .equip-item.active{border-color:var(--accent2);background:rgba(96,165,250,.10);}
+  .equip-item .top{display:flex;align-items:center;gap:10px;}
+  .equip-item input[type=checkbox]{width:16px;height:16px;accent-color:var(--accent2);}
+  .equip-item .label{font-size:13.5px;font-weight:500;}
+  .equip-item .kg-row{display:flex;align-items:center;gap:8px;margin-top:2px;}
+  .equip-item .kg-row input{
+    width:70px;background:var(--bg);border:1px solid var(--line);color:var(--text);
+    border-radius:8px;padding:6px 8px;font-size:13px;
+  }
+  .equip-item .kg-row span{font-size:11.5px;color:var(--sub);}
+  .btn-primary{
+    width:100%;padding:15px;border:none;border-radius:12px;font-size:15px;font-weight:700;
+    background:linear-gradient(180deg,var(--accent) 0%, #34d0b8 100%);color:#04211c;cursor:pointer;
+    letter-spacing:.2px;
+  }
+  .btn-primary:disabled{opacity:.4;cursor:not-allowed;}
+  .hint{font-size:12px;color:var(--sub);margin-top:10px;line-height:1.5;}
+  .error{color:var(--danger);font-size:12.5px;margin-top:10px;display:none;}
+
+  /* Timer / session screen */
+  #sessionScreen{display:none;}
+  .session-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+  .back-link{font-size:13px;color:var(--sub);cursor:pointer;background:none;border:none;padding:0;}
+  .overall-bar{height:5px;background:var(--panel2);border-radius:100px;overflow:hidden;margin-bottom:22px;}
+  .overall-bar > div{height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent));width:0%;transition:width .3s linear;}
+  .phase-pill{
+    display:inline-block;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+    padding:5px 12px;border-radius:100px;margin-bottom:14px;
+  }
+  .phase-pill.warmup{background:rgba(96,165,250,.15);color:var(--accent2);}
+  .phase-pill.work{background:rgba(94,234,212,.15);color:var(--accent);}
+  .phase-pill.rest{background:rgba(251,191,36,.15);color:var(--tier2);}
+  .phase-pill.cooldown{background:rgba(96,165,250,.15);color:var(--accent2);}
+  .exercise-name{font-size:26px;font-weight:800;margin:0 0 6px;}
+  .exercise-cue{font-size:14.5px;color:var(--sub);margin:0 0 22px;min-height:20px;}
+  .timer-circle-wrap{display:flex;justify-content:center;margin:10px 0 24px;}
+  .timer-num{font-size:64px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-1px;}
+  .up-next{font-size:12.5px;color:var(--sub);text-align:center;margin-bottom:24px;}
+  .up-next b{color:var(--text);font-weight:600;}
+  .controls{display:flex;gap:10px;margin-bottom:22px;}
+  .controls button{
+    flex:1;padding:13px;border-radius:12px;border:1px solid var(--line);background:var(--panel2);
+    color:var(--text);font-size:14px;font-weight:600;cursor:pointer;
+  }
+  .controls button.primary{background:var(--accent);color:#04211c;border-color:var(--accent);}
+  .plan-list{max-height:260px;overflow-y:auto;border-top:1px solid var(--line);}
+  .plan-row{
+    display:flex;justify-content:space-between;align-items:center;padding:9px 4px;
+    border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);
+  }
+  .plan-row.current{color:var(--text);font-weight:700;}
+  .plan-row .tag{font-size:10.5px;padding:2px 7px;border-radius:100px;background:var(--panel2);margin-left:8px;}
+  .tier-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:7px;}
+  #doneScreen{display:none;text-align:center;padding:40px 0;}
+  #doneScreen h2{font-size:24px;margin-bottom:8px;}
+  #doneScreen p{color:var(--sub);font-size:14px;margin-bottom:26px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>Novaxa</h1>
+    <span class="badge">Personalized Exercise Sets</span>
+  </header>
+
+  <!-- SETUP SCREEN -->
+  <div id="setupScreen">
+
+    <div class="card">
+      <h2>Strain Target / Recovery Score</h2>
+      <label class="field">
+        <div class="rowlabel">
+          <span class="name">Recovery</span>
+          <span class="val" id="recoveryVal">65%</span>
+        </div>
+        <input type="range" id="recoverySlider" min="0" max="100" step="1" value="65">
+        <div class="recovery-scale"><span>0% — low, go easy</span><span>100% — fully recovered, go hard</span></div>
+      </label>
+    </div>
+
+    <div class="card">
+      <h2>Focus</h2>
+      <div class="seg" id="focusSeg">
+        <button data-focus="recommended" class="active">Recommended</button>
+        <button data-focus="core">Core</button>
+        <button data-focus="legs">Legs</button>
+        <button data-focus="upper">Upper</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Equipment (select all that apply)</h2>
+      <div class="equip-grid" id="equipGrid"></div>
+      <div class="error" id="equipError">Select at least one piece of equipment (Body weight works fine on its own).</div>
+    </div>
+
+    <div class="card">
+      <h2>Time</h2>
+      <div class="seg" id="timeSeg">
+        <button data-time="20" class="active">20 min</button>
+        <button data-time="30">30 min</button>
+      </div>
+      <div class="hint">Includes a 2–3 min warm-up and 2–3 min cool-down inside the total time.</div>
+    </div>
+
+    <button class="btn-primary" id="generateBtn">Generate Workout</button>
+  </div>
+
+  <!-- SESSION SCREEN -->
+  <div id="sessionScreen">
+    <div class="session-top">
+      <button class="back-link" id="backBtn">&larr; Back to setup</button>
+      <span class="hint" id="sessionMeta" style="margin:0;"></span>
+    </div>
+    <div class="overall-bar"><div id="overallFill"></div></div>
+
+    <span class="phase-pill work" id="phasePill">Work</span>
+    <h2 class="exercise-name" id="exName">—</h2>
+    <p class="exercise-cue" id="exCue">—</p>
+
+    <div class="timer-circle-wrap">
+      <div class="timer-num" id="timerNum">00:00</div>
+    </div>
+    <div class="up-next" id="upNext">Up next: —</div>
+
+    <div class="controls">
+      <button id="skipBtn">Skip ⏭</button>
+      <button class="primary" id="pauseBtn">Pause</button>
+      <button id="restartBtn">Restart ↺</button>
+    </div>
+
+    <div class="plan-list" id="planList"></div>
+  </div>
+
+  <!-- DONE SCREEN -->
+  <div id="doneScreen">
+    <h2>Workout complete 💪</h2>
+    <p id="doneSummary">Nice work.</p>
+    <button class="btn-primary" id="doneBtn" style="max-width:280px;margin:0 auto;">Build another set</button>
+  </div>
+
+</div>
+
+<script>
+/* =========================================================================
+   EXERCISE LIBRARY
+   equip: 'bodyweight' | 'pullup' | 'kettlebell' | 'dumbbell' |
+          'inclineTreadmill' | 'treadmill' | 'trx' | 'rope'
+   focus: array subset of ['core','legs','upper','full']  ('full' matches any focus)
+   tier:  1 low, 2 moderate, 3 high intensity
+   weighted: true if kg-load scaling applies (kettlebell/dumbbell)
+   cardio: true if duration-based (no discrete reps, just pace)
+   cue: base instruction / rep range shown to the user
+   ========================================================================= */
+const EQUIP_LABELS = {
+  bodyweight: 'Body weight',
+  pullup: 'Pull-up bar',
+  kettlebell: 'Kettlebell',
+  dumbbell: 'Dumbbell',
+  inclineTreadmill: 'Incline walking treadmill',
+  treadmill: 'Full treadmill',
+  trx: 'TRX',
+  rope: 'Skipping rope'
+};
+
+const WARMUP_POOL = [
+  {name:'Arm Circles', equip:'bodyweight', cue:'Loosen shoulders, both directions'},
+  {name:'Leg Swings', equip:'bodyweight', cue:'Front-to-back, then side-to-side'},
+  {name:'Torso Twists', equip:'bodyweight', cue:'Controlled rotation, hips facing forward'},
+  {name:'March in Place', equip:'bodyweight', cue:'Knees to hip height, easy pace'},
+  {name:'Bodyweight Squats (easy pace)', equip:'bodyweight', cue:'Half-depth, warm the hips and knees'},
+  {name:'Cat-Cow Stretch', equip:'bodyweight', cue:'Slow spinal flexion/extension'},
+  {name:'Hip Circles', equip:'bodyweight', cue:'Hands on hips, big slow circles'}
+];
+const WARMUP_TREADMILL = [
+  {name:'Incline Treadmill Walk', equip:'inclineTreadmill', cue:'Warm, conversational pace, moderate incline'},
+  {name:'Treadmill Easy Walk', equip:'treadmill', cue:'Flat, easy pace to raise heart rate gently'}
+];
+
+const COOLDOWN_POOL = [
+  {name:'Standing Quad Stretch', equip:'bodyweight', cue:'Hold each side, gentle pull'},
+  {name:'Hamstring Stretch', equip:'bodyweight', cue:'Hinge forward, soft knees'},
+  {name:'Chest Opener Stretch', equip:'bodyweight', cue:'Clasp hands behind back, lift gently'},
+  {name:"Child's Pose", equip:'bodyweight', cue:'Sink hips back, breathe deeply'},
+  {name:'Standing Forward Fold', equip:'bodyweight', cue:'Let head and arms hang heavy'},
+  {name:'Shoulder Cross-Body Stretch', equip:'bodyweight', cue:'Hold each arm across chest'},
+  {name:'Box Breathing', equip:'bodyweight', cue:'Inhale 4s, hold 4s, exhale 4s, hold 4s'}
+];
+
+const MAIN_POOL = [
+  // Bodyweight
+  {name:'Bodyweight Squat', equip:'bodyweight', focus:['legs'], tier:1, cue:'15–20 reps'},
+  {name:'Walking Lunges', equip:'bodyweight', focus:['legs'], tier:2, cue:'10–12 reps per leg'},
+  {name:'Jump Squats', equip:'bodyweight', focus:['legs'], tier:3, cue:'12–15 reps'},
+  {name:'Glute Bridge', equip:'bodyweight', focus:['legs'], tier:1, cue:'15–20 reps'},
+  {name:'Single-Leg Glute Bridge', equip:'bodyweight', focus:['legs'], tier:2, cue:'10–12 reps per leg'},
+  {name:'Push-Ups', equip:'bodyweight', focus:['upper'], tier:2, cue:'10–15 reps'},
+  {name:'Incline Push-Ups', equip:'bodyweight', focus:['upper'], tier:1, cue:'12–15 reps, hands elevated'},
+  {name:'Diamond Push-Ups', equip:'bodyweight', focus:['upper'], tier:3, cue:'8–12 reps'},
+  {name:'Pike Push-Ups', equip:'bodyweight', focus:['upper'], tier:3, cue:'8–10 reps'},
+  {name:'Chair Tricep Dips', equip:'bodyweight', focus:['upper'], tier:2, cue:'10–15 reps'},
+  {name:'Plank Hold', equip:'bodyweight', focus:['core'], tier:1, cue:'Hold 30–45s, brace hard'},
+  {name:'Side Plank', equip:'bodyweight', focus:['core'], tier:2, cue:'20–30s per side'},
+  {name:'Mountain Climbers', equip:'bodyweight', focus:['core','full'], tier:3, cue:'20–24 total reps, fast pace'},
+  {name:'Bicycle Crunches', equip:'bodyweight', focus:['core'], tier:2, cue:'20–24 total reps'},
+  {name:'Superman Hold', equip:'bodyweight', focus:['core'], tier:1, cue:'10–12 reps, 2s hold each'},
+  {name:'Burpees', equip:'bodyweight', focus:['full'], tier:3, cue:'8–10 reps'},
+  {name:'High Knees', equip:'bodyweight', focus:['full','legs'], tier:2, cue:'Fast pace, 30s'},
+  {name:'Jumping Jacks', equip:'bodyweight', focus:['full'], tier:1, cue:'30–40 reps'},
+  {name:'Bear Crawl Hold', equip:'bodyweight', focus:['full','core'], tier:2, cue:'20–30s, hips level'},
+  {name:'Squat to Reach', equip:'bodyweight', focus:['full','legs'], tier:1, cue:'12–15 reps'},
+
+  // Pull-up bar
+  {name:'Pull-Ups', equip:'pullup', focus:['upper'], tier:3, cue:'5–8 reps'},
+  {name:'Chin-Ups', equip:'pullup', focus:['upper'], tier:3, cue:'5–8 reps'},
+  {name:'Negative Pull-Ups', equip:'pullup', focus:['upper'], tier:2, cue:'5–6 slow 4s negatives'},
+  {name:'Hanging Knee Raises', equip:'pullup', focus:['core'], tier:2, cue:'10–12 reps'},
+  {name:'Hanging Leg Raises', equip:'pullup', focus:['core'], tier:3, cue:'8–10 reps'},
+  {name:'Scapular Pulls', equip:'pullup', focus:['upper'], tier:1, cue:'10–12 reps'},
+  {name:'Dead Hang', equip:'pullup', focus:['core','upper'], tier:1, cue:'Hold 20–30s'},
+
+  // Kettlebell (weighted)
+  {name:'Kettlebell Swings', equip:'kettlebell', focus:['full'], tier:2, weighted:true, cue:'15–20 reps'},
+  {name:'KB Goblet Squat', equip:'kettlebell', focus:['legs'], tier:2, weighted:true, cue:'12–15 reps'},
+  {name:'KB Romanian Deadlift', equip:'kettlebell', focus:['legs'], tier:2, weighted:true, cue:'10–12 reps'},
+  {name:'KB Clean & Press', equip:'kettlebell', focus:['upper','full'], tier:3, weighted:true, cue:'8–10 reps per side'},
+  {name:'KB Snatch', equip:'kettlebell', focus:['full'], tier:3, weighted:true, cue:'6–8 reps per side'},
+  {name:'KB Halo', equip:'kettlebell', focus:['core'], tier:1, weighted:true, cue:'8–10 reps per direction'},
+  {name:'KB Goblet Reverse Lunge', equip:'kettlebell', focus:['legs'], tier:2, weighted:true, cue:'10 reps per leg'},
+  {name:'KB Russian Twist', equip:'kettlebell', focus:['core'], tier:1, weighted:true, cue:'16–20 total reps'},
+  {name:"KB Farmer's Carry", equip:'kettlebell', focus:['full'], tier:1, weighted:true, cue:'30–40s walk'},
+
+  // Dumbbell (weighted)
+  {name:'DB Goblet Squat', equip:'dumbbell', focus:['legs'], tier:2, weighted:true, cue:'12–15 reps'},
+  {name:'DB Romanian Deadlift', equip:'dumbbell', focus:['legs'], tier:2, weighted:true, cue:'10–12 reps'},
+  {name:'DB Shoulder Press', equip:'dumbbell', focus:['upper'], tier:2, weighted:true, cue:'10–12 reps'},
+  {name:'DB Bent-Over Row', equip:'dumbbell', focus:['upper'], tier:2, weighted:true, cue:'10–12 reps'},
+  {name:'DB Renegade Row', equip:'dumbbell', focus:['full','upper'], tier:3, weighted:true, cue:'8–10 reps per side'},
+  {name:'DB Reverse Lunge', equip:'dumbbell', focus:['legs'], tier:2, weighted:true, cue:'10 reps per leg'},
+  {name:'DB Russian Twist', equip:'dumbbell', focus:['core'], tier:1, weighted:true, cue:'16–20 total reps'},
+  {name:'DB Thruster', equip:'dumbbell', focus:['full'], tier:3, weighted:true, cue:'8–10 reps'},
+  {name:'DB Curl to Press', equip:'dumbbell', focus:['upper'], tier:1, weighted:true, cue:'10–12 reps'},
+
+  // Incline walking treadmill
+  {name:'Incline Power Walk', equip:'inclineTreadmill', focus:['legs','full'], tier:1, cardio:true, cue:'Brisk pace, steep incline'},
+  {name:'Incline Walk Intervals', equip:'inclineTreadmill', focus:['legs','full'], tier:2, cardio:true, cue:'Alternate fast/steady pace'},
+
+  // Full treadmill
+  {name:'Treadmill Sprint Interval', equip:'treadmill', focus:['full'], tier:3, cardio:true, cue:'Hard sprint pace'},
+  {name:'Treadmill Jog', equip:'treadmill', focus:['full'], tier:2, cardio:true, cue:'Steady jogging pace'},
+  {name:'Treadmill Fast Walk', equip:'treadmill', focus:['full','legs'], tier:1, cardio:true, cue:'Brisk walking pace'},
+
+  // TRX
+  {name:'TRX Row', equip:'trx', focus:['upper'], tier:2, cue:'10–12 reps'},
+  {name:'TRX Chest Press', equip:'trx', focus:['upper'], tier:2, cue:'10–12 reps'},
+  {name:'TRX Squat', equip:'trx', focus:['legs'], tier:1, cue:'12–15 reps'},
+  {name:'TRX Pike', equip:'trx', focus:['core'], tier:3, cue:'8–10 reps'},
+  {name:'TRX Hamstring Curl', equip:'trx', focus:['legs'], tier:2, cue:'10–12 reps'},
+  {name:'TRX Mountain Climbers', equip:'trx', focus:['core','full'], tier:3, cue:'20–24 total reps'},
+  {name:'TRX Y-Fly', equip:'trx', focus:['upper'], tier:1, cue:'10–12 reps'},
+
+  // Skipping rope
+  {name:'Skipping Rope — Basic', equip:'rope', focus:['full'], tier:2, cardio:true, cue:'Steady pace'},
+  {name:'Skipping Rope — High Knees', equip:'rope', focus:['full','legs'], tier:3, cardio:true, cue:'Fast pace, knees up'},
+  {name:'Skipping Rope — Slow Pace', equip:'rope', focus:['full'], tier:1, cardio:true, cue:'Easy recovery pace'}
+];
+
+/* =========================================================================
+   SESSION GENERATION
+   ========================================================================= */
+
+function loadFactor(kind, kg){
+  // 0 light, 1 moderate, 2 heavy
+  if (!kg || kg <= 0) return 0;
+  if (kind === 'kettlebell') return kg < 12 ? 0 : (kg <= 20 ? 1 : 2);
+  return kg < 10 ? 0 : (kg <= 20 ? 1 : 2); // dumbbell
+}
+
+function recoveryBand(score){
+  if (score >= 70) return {band:'high', work:40, rest:15, tiers:[1,2,3]};
+  if (score >= 40) return {band:'moderate', work:35, rest:20, tiers:[1,2]};
+  return {band:'low', work:25, rest:25, tiers:[1]};
+}
+
+function scaleCue(ex, factor){
+  if (!ex.weighted || !factor) return ex.cue;
+  // shift rep ranges down a notch per load factor step
+  const m = ex.cue.match(/(\d+)[–-](\d+)/);
+  if (!m) return ex.cue;
+  const lo = Math.max(3, parseInt(m[1]) - factor*2);
+  const hi = Math.max(lo+1, parseInt(m[2]) - factor*2);
+  return ex.cue.replace(m[0], lo + '–' + hi);
+}
+
+function pickMainExercises(pool, focus, tiersAllowed, count){
+  let candidates = pool.filter(e => tiersAllowed.includes(e.tier));
+  if (focus === 'recommended'){
+    // round-robin across categories for balanced coverage
+    const cats = ['legs','upper','core','full'];
+    const used = new Set();
+    const chosen = [];
+    let guard = 0;
+    while (chosen.length < count && guard < 200){
+      const cat = cats[guard % cats.length];
+      const opts = candidates.filter(e => e.focus.includes(cat) && !used.has(e.name));
+      if (opts.length){
+        const pickd = opts[Math.floor(Math.random()*opts.length)];
+        chosen.push(pickd);
+        used.add(pickd.name);
+      }
+      guard++;
+    }
+    // fill remainder randomly if categories ran dry
+    if (chosen.length < count){
+      const remaining = candidates.filter(e => !used.has(e.name));
+      shuffle(remaining);
+      for (const e of remaining){
+        if (chosen.length >= count) break;
+        chosen.push(e); used.add(e.name);
+      }
+    }
+    return chosen;
+  } else {
+    candidates = candidates.filter(e => e.focus.includes(focus) || e.focus.includes('full'));
+    shuffle(candidates);
+    return candidates.slice(0, count);
+  }
+}
+
+function shuffle(arr){
+  for (let i = arr.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function buildFillerBlock(pool, seconds, equipSet){
+  // split seconds evenly across up to 3 available items, back-to-back, no rest
+  const available = pool.filter(e => equipSet.has(e.equip));
+  shuffle(available);
+  const items = available.slice(0, 3);
+  if (!items.length) items.push(pool[0]);
+  const base = Math.floor(seconds / items.length);
+  let remainder = seconds - base * items.length;
+  return items.map((it, idx) => {
+    const dur = base + (idx === items.length - 1 ? remainder : 0);
+    return {kind: items === WARMUP_POOL || pool===WARMUP_POOL || pool===WARMUP_TREADMILL ? 'warmup' : 'cooldown',
+             name: it.name, cue: it.cue, seconds: dur};
+  });
+}
+
+function generateWorkout(params){
+  const {recovery, focus, equipment, kettlebellKg, dumbbellKg, minutes} = params;
+  const equipSet = new Set(['bodyweight', ...equipment]);
+  const totalSeconds = minutes * 60;
+  const warmupSeconds = minutes === 20 ? 120 : 150; // 2 or 2.5 min
+  const cooldownSeconds = minutes === 20 ? 120 : 150;
+  const mainSeconds = totalSeconds - warmupSeconds - cooldownSeconds;
+
+  const {band, work, rest, tiers} = recoveryBand(recovery);
+
+  // filter main pool by available equipment
+  let pool = MAIN_POOL.filter(e => equipSet.has(e.equip));
+
+  // heavy-load safety: exclude tier-3 weighted exercises if load is heavy
+  const kbFactor = loadFactor('kettlebell', kettlebellKg);
+  const dbFactor = loadFactor('dumbbell', dumbbellKg);
+  pool = pool.filter(e => {
+    if (!e.weighted) return true;
+    const f = e.equip === 'kettlebell' ? kbFactor : dbFactor;
+    return !(f === 2 && e.tier === 3);
+  });
+
+  const exCount = minutes === 20 ? 5 : 6;
+  let chosen = pickMainExercises(pool, focus, tiers, Math.min(exCount, Math.max(3, pool.length)));
+  if (!chosen.length) chosen = pickMainExercises(MAIN_POOL.filter(e=>e.equip==='bodyweight'), focus, [1,2,3], 4);
+
+  // per-exercise rest bump from load
+  const perExRest = chosen.map(e => {
+    if (!e.weighted) return rest;
+    const f = e.equip === 'kettlebell' ? kbFactor : dbFactor;
+    return rest + f * 5;
+  });
+
+  const roundDuration = chosen.reduce((s, e, i) => s + work + perExRest[i], 0);
+  let rounds = Math.max(2, Math.min(4, Math.round(mainSeconds / roundDuration)));
+  let total = rounds * roundDuration;
+  let diff = mainSeconds - total;
+
+  // distribute diff across rest seconds (min floor 8s) to hit exact main duration
+  const slots = rounds * chosen.length;
+  let base = Math.floor(diff / slots);
+  let leftover = diff - base * slots;
+
+  const mainSequence = [];
+  let slotIdx = 0;
+  for (let r = 1; r <= rounds; r++){
+    chosen.forEach((e, i) => {
+      let restAdj = perExRest[i] + base + (slotIdx === slots - 1 ? leftover : 0);
+      if (restAdj < 8) restAdj = 8;
+      slotIdx++;
+      const factor = e.equip === 'kettlebell' ? kbFactor : (e.equip === 'dumbbell' ? dbFactor : 0);
+      const loadLabel = e.weighted ? (e.equip === 'kettlebell'
+        ? (kettlebellKg ? kettlebellKg + 'kg kettlebell' : 'kettlebell')
+        : (dumbbellKg ? dumbbellKg + 'kg dumbbell' : 'dumbbell')) : null;
+      mainSequence.push({
+        kind: 'work', name: e.name, tier: e.tier,
+        cue: scaleCue(e, factor) + (loadLabel ? ' • ' + loadLabel : ''),
+        seconds: work, round: r, roundsTotal: rounds
+      });
+      mainSequence.push({kind: 'rest', name: 'Rest', cue: 'Shake it out, breathe', seconds: restAdj, round: r, roundsTotal: rounds});
+    });
+  }
+  // drop the very last rest interval but keep its seconds (folded into cool-down below)
+  // so the total session length still matches the selected time exactly
+  let carryToCooldown = 0;
+  if (mainSequence.length && mainSequence[mainSequence.length-1].kind === 'rest'){
+    carryToCooldown = mainSequence.pop().seconds;
+  }
+
+  // warmup block
+  const wPool = (equipSet.has('inclineTreadmill') || equipSet.has('treadmill'))
+    ? [...WARMUP_TREADMILL.filter(w => equipSet.has(w.equip)), ...WARMUP_POOL.slice(0,1)]
+    : WARMUP_POOL;
+  const warmupItems = buildFillerBlock(wPool, warmupSeconds, equipSet).map(x => ({...x, kind:'warmup'}));
+
+  const cooldownItems = buildFillerBlock(COOLDOWN_POOL, cooldownSeconds + carryToCooldown, equipSet).map(x => ({...x, kind:'cooldown'}));
+
+  const sequence = [...warmupItems, ...mainSequence, ...cooldownItems];
+  const grandTotal = sequence.reduce((s,x)=>s+x.seconds,0);
+
+  return {
+    sequence, band, rounds, mainSeconds, warmupSeconds, cooldownSeconds,
+    grandTotal, exerciseCount: chosen.length
+  };
+}
+
+/* =========================================================================
+   UI WIRING
+   ========================================================================= */
+const state = {
+  focus: 'recommended',
+  minutes: 20,
+  equipment: {}, // key -> {checked, kg}
+};
+
+const EQUIP_KEYS = ['bodyweight','pullup','kettlebell','dumbbell','inclineTreadmill','treadmill','trx','rope'];
+
+function buildEquipGrid(){
+  const grid = document.getElementById('equipGrid');
+  grid.innerHTML = '';
+  EQUIP_KEYS.forEach(key => {
+    const needsKg = key === 'kettlebell' || key === 'dumbbell';
+    const div = document.createElement('div');
+    div.className = 'equip-item';
+    div.dataset.key = key;
+    div.innerHTML = `
+      <div class="top">
+        <input type="checkbox" data-key="${key}">
+        <span class="label">${EQUIP_LABELS[key]}</span>
+      </div>
+      ${needsKg ? `<div class="kg-row"><input type="number" min="1" max="60" placeholder="kg" data-kg="${key}"><span>kg</span></div>` : ''}
+    `;
+    grid.appendChild(div);
+  });
+}
+buildEquipGrid();
+
+// restore saved settings
+try {
+  const saved = JSON.parse(localStorage.getItem('novaxa_settings') || 'null');
+  if (saved){
+    document.getElementById('recoverySlider').value = saved.recovery ?? 65;
+    state.focus = saved.focus || 'recommended';
+    state.minutes = saved.minutes || 20;
+    if (saved.equipment) state.equipment = saved.equipment;
+  }
+} catch(e){}
+
+document.getElementById('recoveryVal').textContent = document.getElementById('recoverySlider').value + '%';
+document.getElementById('recoverySlider').addEventListener('input', e => {
+  document.getElementById('recoveryVal').textContent = e.target.value + '%';
+});
+
+document.querySelectorAll('#focusSeg button').forEach(btn => {
+  if (btn.dataset.focus === state.focus) btn.classList.add('active'); else btn.classList.remove('active');
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#focusSeg button').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    state.focus = btn.dataset.focus;
+  });
+});
+
+document.querySelectorAll('#timeSeg button').forEach(btn => {
+  if (parseInt(btn.dataset.time) === state.minutes) btn.classList.add('active'); else btn.classList.remove('active');
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#timeSeg button').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    state.minutes = parseInt(btn.dataset.time);
+  });
+});
+
+// apply restored equipment state to DOM
+document.querySelectorAll('#equipGrid .equip-item').forEach(div => {
+  const key = div.dataset.key;
+  const cb = div.querySelector('input[type=checkbox]');
+  const kgInput = div.querySelector('input[data-kg]');
+  const saved = state.equipment[key];
+  if (saved && saved.checked){
+    cb.checked = true;
+    div.classList.add('active');
+  }
+  if (saved && saved.kg && kgInput) kgInput.value = saved.kg;
+
+  cb.addEventListener('change', () => {
+    div.classList.toggle('active', cb.checked);
+  });
+  if (kgInput){
+    kgInput.addEventListener('input', () => {});
+  }
+});
+
+function collectEquipment(){
+  const equipment = [];
+  let kettlebellKg = null, dumbbellKg = null;
+  document.querySelectorAll('#equipGrid .equip-item').forEach(div => {
+    const key = div.dataset.key;
+    const cb = div.querySelector('input[type=checkbox]');
+    const kgInput = div.querySelector('input[data-kg]');
+    if (cb.checked){
+      equipment.push(key);
+      if (key === 'kettlebell') kettlebellKg = kgInput.value ? parseFloat(kgInput.value) : null;
+      if (key === 'dumbbell') dumbbellKg = kgInput.value ? parseFloat(kgInput.value) : null;
+    }
+  });
+  return {equipment, kettlebellKg, dumbbellKg};
+}
+
+document.getElementById('generateBtn').addEventListener('click', () => {
+  const {equipment, kettlebellKg, dumbbellKg} = collectEquipment();
+  const errorEl = document.getElementById('equipError');
+  if (equipment.length === 0){
+    errorEl.style.display = 'block';
+    return;
+  }
+  errorEl.style.display = 'none';
+
+  const recovery = parseInt(document.getElementById('recoverySlider').value);
+
+  // persist settings
+  const equipmentState = {};
+  document.querySelectorAll('#equipGrid .equip-item').forEach(div => {
+    const key = div.dataset.key;
+    const cb = div.querySelector('input[type=checkbox]');
+    const kgInput = div.querySelector('input[data-kg]');
+    equipmentState[key] = {checked: cb.checked, kg: kgInput ? kgInput.value : null};
+  });
+  localStorage.setItem('novaxa_settings', JSON.stringify({
+    recovery, focus: state.focus, minutes: state.minutes, equipment: equipmentState
+  }));
+
+  const workout = generateWorkout({
+    recovery, focus: state.focus, equipment, kettlebellKg, dumbbellKg, minutes: state.minutes
+  });
+
+  startSession(workout);
+});
+
+/* ---------------- Session player ---------------- */
+let session = null;
+let stepIndex = 0;
+let remaining = 0;
+let timerHandle = null;
+let paused = false;
+let audioCtx = null;
+
+function beep(freq=880, dur=0.12, gain=0.15){
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    osc.frequency.value = freq;
+    osc.type = 'sine';
+    g.gain.value = gain;
+    osc.connect(g); g.connect(audioCtx.destination);
+    osc.start();
+    g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + dur);
+    osc.stop(audioCtx.currentTime + dur + 0.02);
+  } catch(e){}
+}
+
+function fmt(s){
+  s = Math.max(0, Math.round(s));
+  const m = Math.floor(s/60), sec = s%60;
+  return String(m).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+}
+
+function startSession(workout){
+  session = workout;
+  stepIndex = 0;
+  paused = false;
+  document.getElementById('setupScreen').style.display = 'none';
+  document.getElementById('doneScreen').style.display = 'none';
+  document.getElementById('sessionScreen').style.display = 'block';
+  document.getElementById('sessionMeta').textContent =
+    `${session.band[0].toUpperCase()+session.band.slice(1)} recovery • ${session.rounds} rounds • ${session.exerciseCount} exercises`;
+  renderPlanList();
+  enterStep(0);
+  tick();
+}
+
+function renderPlanList(){
+  const list = document.getElementById('planList');
+  list.innerHTML = '';
+  session.sequence.forEach((step, i) => {
+    const row = document.createElement('div');
+    row.className = 'plan-row';
+    row.id = 'row-' + i;
+    const tierColor = step.kind === 'work' ? (step.tier === 3 ? 'var(--tier3)' : step.tier === 2 ? 'var(--tier2)' : 'var(--tier1)') : 'var(--sub)';
+    row.innerHTML = `<span><span class="tier-dot" style="background:${tierColor}"></span>${step.name}</span><span class="tag">${fmt(step.seconds)}</span>`;
+    list.appendChild(row);
+  });
+}
+
+function enterStep(i){
+  stepIndex = i;
+  const step = session.sequence[i];
+  remaining = step.seconds;
+  document.getElementById('exName').textContent = step.name;
+  document.getElementById('exCue').textContent = step.cue || '';
+  const pill = document.getElementById('phasePill');
+  pill.textContent = step.kind === 'work' ? 'Work' : step.kind === 'rest' ? 'Rest' : step.kind === 'warmup' ? 'Warm Up' : 'Cool Down';
+  pill.className = 'phase-pill ' + step.kind;
+  const next = session.sequence[i+1];
+  document.getElementById('upNext').innerHTML = next ? `Up next: <b>${next.name}</b>` : 'Last one — finish strong';
+  document.querySelectorAll('.plan-row').forEach(r => r.classList.remove('current'));
+  const row = document.getElementById('row-' + i);
+  if (row){ row.classList.add('current'); row.scrollIntoView({block:'nearest'}); }
+  beep(step.kind === 'work' ? 1046 : 660, 0.15);
+  updateOverall();
+}
+
+function updateOverall(){
+  const elapsedBefore = session.sequence.slice(0, stepIndex).reduce((s,x)=>s+x.seconds,0);
+  const currentElapsed = session.sequence[stepIndex].seconds - remaining;
+  const pct = ((elapsedBefore + currentElapsed) / session.grandTotal) * 100;
+  document.getElementById('overallFill').style.width = Math.min(100,pct) + '%';
+}
+
+function tick(){
+  clearInterval(timerHandle);
+  timerHandle = setInterval(() => {
+    if (paused) return;
+    remaining -= 1;
+    if (remaining <= 3 && remaining > 0) beep(440, 0.08, 0.1);
+    if (remaining <= 0){
+      if (stepIndex + 1 < session.sequence.length){
+        enterStep(stepIndex + 1);
+      } else {
+        clearInterval(timerHandle);
+        finishSession();
+        return;
+      }
+    }
+    document.getElementById('timerNum').textContent = fmt(remaining);
+    updateOverall();
+  }, 1000);
+  document.getElementById('timerNum').textContent = fmt(remaining);
+}
+
+document.getElementById('pauseBtn').addEventListener('click', (e) => {
+  paused = !paused;
+  e.target.textContent = paused ? 'Resume' : 'Pause';
+});
+document.getElementById('skipBtn').addEventListener('click', () => {
+  if (stepIndex + 1 < session.sequence.length) enterStep(stepIndex + 1);
+  else finishSession();
+});
+document.getElementById('restartBtn').addEventListener('click', () => {
+  enterStep(0);
+});
+document.getElementById('backBtn').addEventListener('click', () => {
+  clearInterval(timerHandle);
+  document.getElementById('sessionScreen').style.display = 'none';
+  document.getElementById('setupScreen').style.display = 'block';
+});
+
+function finishSession(){
+  document.getElementById('sessionScreen').style.display = 'none';
+  document.getElementById('doneScreen').style.display = 'block';
+  const mins = Math.round(session.grandTotal/60);
+  document.getElementById('doneSummary').textContent =
+    `${mins} min session • ${session.rounds} rounds • ${session.exerciseCount} exercises • ${session.band} recovery`;
+  beep(1200,0.2,0.2);
+}
+document.getElementById('doneBtn').addEventListener('click', () => {
+  document.getElementById('doneScreen').style.display = 'none';
+  document.getElementById('setupScreen').style.display = 'block';
+});
+</script>
+</body>
+</html>
