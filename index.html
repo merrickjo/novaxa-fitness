@@ -248,80 +248,80 @@ const COOLDOWN_POOL = [
 
 const MAIN_POOL = [
   // Bodyweight
-  {name:'Bodyweight Squat', equip:'bodyweight', focus:['legs'], tier:1, cue:'15–20 reps'},
-  {name:'Walking Lunges', equip:'bodyweight', focus:['legs'], tier:2, cue:'10–12 reps per leg'},
-  {name:'Jump Squats', equip:'bodyweight', focus:['legs'], tier:3, cue:'12–15 reps'},
-  {name:'Glute Bridge', equip:'bodyweight', focus:['legs'], tier:1, cue:'15–20 reps'},
-  {name:'Single-Leg Glute Bridge', equip:'bodyweight', focus:['legs'], tier:2, cue:'10–12 reps per leg'},
-  {name:'Push-Ups', equip:'bodyweight', focus:['upper'], tier:2, cue:'10–15 reps'},
-  {name:'Incline Push-Ups', equip:'bodyweight', focus:['upper'], tier:1, cue:'12–15 reps, hands elevated'},
-  {name:'Diamond Push-Ups', equip:'bodyweight', focus:['upper'], tier:3, cue:'8–12 reps'},
-  {name:'Pike Push-Ups', equip:'bodyweight', focus:['upper'], tier:3, cue:'8–10 reps'},
-  {name:'Chair Tricep Dips', equip:'bodyweight', focus:['upper'], tier:2, cue:'10–15 reps'},
-  {name:'Plank Hold', equip:'bodyweight', focus:['core'], tier:1, cue:'Hold 30–45s, brace hard'},
-  {name:'Side Plank', equip:'bodyweight', focus:['core'], tier:2, cue:'20–30s per side'},
-  {name:'Mountain Climbers', equip:'bodyweight', focus:['core','full'], tier:3, cue:'20–24 total reps, fast pace'},
-  {name:'Bicycle Crunches', equip:'bodyweight', focus:['core'], tier:2, cue:'20–24 total reps'},
-  {name:'Superman Hold', equip:'bodyweight', focus:['core'], tier:1, cue:'10–12 reps, 2s hold each'},
-  {name:'Burpees', equip:'bodyweight', focus:['full'], tier:3, cue:'8–10 reps'},
-  {name:'High Knees', equip:'bodyweight', focus:['full','legs'], tier:2, cue:'Fast pace, 30s'},
-  {name:'Jumping Jacks', equip:'bodyweight', focus:['full'], tier:1, cue:'30–40 reps'},
-  {name:'Bear Crawl Hold', equip:'bodyweight', focus:['full','core'], tier:2, cue:'20–30s, hips level'},
-  {name:'Squat to Reach', equip:'bodyweight', focus:['full','legs'], tier:1, cue:'12–15 reps'},
+  {name:'Bodyweight Squat', equip:'bodyweight', focus:['legs'], tier:1, muscle:'quads', cue:'15–20 reps'},
+  {name:'Walking Lunges', equip:'bodyweight', focus:['legs'], tier:2, muscle:'quads', cue:'10–12 reps per leg'},
+  {name:'Jump Squats', equip:'bodyweight', focus:['legs'], tier:3, muscle:'quads', cue:'12–15 reps'},
+  {name:'Glute Bridge', equip:'bodyweight', focus:['legs'], tier:1, muscle:'glutes', cue:'15–20 reps'},
+  {name:'Single-Leg Glute Bridge', equip:'bodyweight', focus:['legs'], tier:2, muscle:'glutes', cue:'10–12 reps per leg'},
+  {name:'Push-Ups', equip:'bodyweight', focus:['upper'], tier:2, muscle:'chest', cue:'10–15 reps'},
+  {name:'Incline Push-Ups', equip:'bodyweight', focus:['upper'], tier:1, muscle:'chest', cue:'12–15 reps, hands elevated'},
+  {name:'Diamond Push-Ups', equip:'bodyweight', focus:['upper'], tier:3, muscle:'triceps', cue:'8–12 reps'},
+  {name:'Pike Push-Ups', equip:'bodyweight', focus:['upper'], tier:3, muscle:'shoulders', cue:'8–10 reps'},
+  {name:'Chair Tricep Dips', equip:'bodyweight', focus:['upper'], tier:2, muscle:'triceps', cue:'10–15 reps'},
+  {name:'Plank Hold', equip:'bodyweight', focus:['core'], tier:1, muscle:'abs', cue:'Hold 30–45s, brace hard'},
+  {name:'Side Plank', equip:'bodyweight', focus:['core'], tier:2, muscle:'obliques', cue:'20–30s per side'},
+  {name:'Mountain Climbers', equip:'bodyweight', focus:['core','full'], tier:3, muscle:'abs', cue:'20–24 total reps, fast pace'},
+  {name:'Bicycle Crunches', equip:'bodyweight', focus:['core'], tier:2, muscle:'abs', cue:'20–24 total reps'},
+  {name:'Superman Hold', equip:'bodyweight', focus:['core'], tier:1, muscle:'lowerback', cue:'10–12 reps, 2s hold each'},
+  {name:'Burpees', equip:'bodyweight', focus:['full'], tier:3, muscle:'fullbody', cue:'8–10 reps'},
+  {name:'High Knees', equip:'bodyweight', focus:['full','legs'], tier:2, muscle:'legs', cue:'Fast pace, 30s'},
+  {name:'Jumping Jacks', equip:'bodyweight', focus:['full'], tier:1, muscle:'fullbody', cue:'30–40 reps'},
+  {name:'Bear Crawl Hold', equip:'bodyweight', focus:['full','core'], tier:2, muscle:'abs', cue:'20–30s, hips level'},
+  {name:'Squat to Reach', equip:'bodyweight', focus:['full','legs'], tier:1, muscle:'quads', cue:'12–15 reps'},
 
   // Pull-up bar
-  {name:'Pull-Ups', equip:'pullup', focus:['upper'], tier:3, cue:'5–8 reps'},
-  {name:'Chin-Ups', equip:'pullup', focus:['upper'], tier:3, cue:'5–8 reps'},
-  {name:'Negative Pull-Ups', equip:'pullup', focus:['upper'], tier:2, cue:'5–6 slow 4s negatives'},
-  {name:'Hanging Knee Raises', equip:'pullup', focus:['core'], tier:2, cue:'10–12 reps'},
-  {name:'Hanging Leg Raises', equip:'pullup', focus:['core'], tier:3, cue:'8–10 reps'},
-  {name:'Scapular Pulls', equip:'pullup', focus:['upper'], tier:1, cue:'10–12 reps'},
-  {name:'Dead Hang', equip:'pullup', focus:['core','upper'], tier:1, cue:'Hold 20–30s'},
+  {name:'Pull-Ups', equip:'pullup', focus:['upper'], tier:3, muscle:'back', cue:'5–8 reps'},
+  {name:'Chin-Ups', equip:'pullup', focus:['upper'], tier:3, muscle:'back', cue:'5–8 reps'},
+  {name:'Negative Pull-Ups', equip:'pullup', focus:['upper'], tier:2, muscle:'back', cue:'5–6 slow 4s negatives'},
+  {name:'Hanging Knee Raises', equip:'pullup', focus:['core'], tier:2, muscle:'abs', cue:'10–12 reps'},
+  {name:'Hanging Leg Raises', equip:'pullup', focus:['core'], tier:3, muscle:'abs', cue:'8–10 reps'},
+  {name:'Scapular Pulls', equip:'pullup', focus:['upper'], tier:1, muscle:'back', cue:'10–12 reps'},
+  {name:'Dead Hang', equip:'pullup', focus:['core','upper'], tier:1, muscle:'back', cue:'Hold 20–30s'},
 
   // Kettlebell (weighted)
-  {name:'Kettlebell Swings', equip:'kettlebell', focus:['full'], tier:2, weighted:true, cue:'15–20 reps'},
-  {name:'KB Goblet Squat', equip:'kettlebell', focus:['legs'], tier:2, weighted:true, cue:'12–15 reps'},
-  {name:'KB Romanian Deadlift', equip:'kettlebell', focus:['legs'], tier:2, weighted:true, cue:'10–12 reps'},
-  {name:'KB Clean & Press', equip:'kettlebell', focus:['upper','full'], tier:3, weighted:true, cue:'8–10 reps per side'},
-  {name:'KB Snatch', equip:'kettlebell', focus:['full'], tier:3, weighted:true, cue:'6–8 reps per side'},
-  {name:'KB Halo', equip:'kettlebell', focus:['core'], tier:1, weighted:true, cue:'8–10 reps per direction'},
-  {name:'KB Goblet Reverse Lunge', equip:'kettlebell', focus:['legs'], tier:2, weighted:true, cue:'10 reps per leg'},
-  {name:'KB Russian Twist', equip:'kettlebell', focus:['core'], tier:1, weighted:true, cue:'16–20 total reps'},
-  {name:"KB Farmer's Carry", equip:'kettlebell', focus:['full'], tier:1, weighted:true, cue:'30–40s walk'},
+  {name:'Kettlebell Swings', equip:'kettlebell', focus:['full'], tier:2, muscle:'hamstrings', weighted:true, cue:'15–20 reps'},
+  {name:'KB Goblet Squat', equip:'kettlebell', focus:['legs'], tier:2, muscle:'quads', weighted:true, cue:'12–15 reps'},
+  {name:'KB Romanian Deadlift', equip:'kettlebell', focus:['legs'], tier:2, muscle:'hamstrings', weighted:true, cue:'10–12 reps'},
+  {name:'KB Clean & Press', equip:'kettlebell', focus:['upper','full'], tier:3, muscle:'shoulders', weighted:true, cue:'8–10 reps per side'},
+  {name:'KB Snatch', equip:'kettlebell', focus:['full'], tier:3, muscle:'fullbody', weighted:true, cue:'6–8 reps per side'},
+  {name:'KB Halo', equip:'kettlebell', focus:['core'], tier:1, muscle:'core', weighted:true, cue:'8–10 reps per direction'},
+  {name:'KB Goblet Reverse Lunge', equip:'kettlebell', focus:['legs'], tier:2, muscle:'quads', weighted:true, cue:'10 reps per leg'},
+  {name:'KB Russian Twist', equip:'kettlebell', focus:['core'], tier:1, muscle:'obliques', weighted:true, cue:'16–20 total reps'},
+  {name:"KB Farmer's Carry", equip:'kettlebell', focus:['full'], tier:1, muscle:'fullbody', weighted:true, cue:'30–40s walk'},
 
   // Dumbbell (weighted)
-  {name:'DB Goblet Squat', equip:'dumbbell', focus:['legs'], tier:2, weighted:true, cue:'12–15 reps'},
-  {name:'DB Romanian Deadlift', equip:'dumbbell', focus:['legs'], tier:2, weighted:true, cue:'10–12 reps'},
-  {name:'DB Shoulder Press', equip:'dumbbell', focus:['upper'], tier:2, weighted:true, cue:'10–12 reps'},
-  {name:'DB Bent-Over Row', equip:'dumbbell', focus:['upper'], tier:2, weighted:true, cue:'10–12 reps'},
-  {name:'DB Renegade Row', equip:'dumbbell', focus:['full','upper'], tier:3, weighted:true, cue:'8–10 reps per side'},
-  {name:'DB Reverse Lunge', equip:'dumbbell', focus:['legs'], tier:2, weighted:true, cue:'10 reps per leg'},
-  {name:'DB Russian Twist', equip:'dumbbell', focus:['core'], tier:1, weighted:true, cue:'16–20 total reps'},
-  {name:'DB Thruster', equip:'dumbbell', focus:['full'], tier:3, weighted:true, cue:'8–10 reps'},
-  {name:'DB Curl to Press', equip:'dumbbell', focus:['upper'], tier:1, weighted:true, cue:'10–12 reps'},
+  {name:'DB Goblet Squat', equip:'dumbbell', focus:['legs'], tier:2, muscle:'quads', weighted:true, cue:'12–15 reps'},
+  {name:'DB Romanian Deadlift', equip:'dumbbell', focus:['legs'], tier:2, muscle:'hamstrings', weighted:true, cue:'10–12 reps'},
+  {name:'DB Shoulder Press', equip:'dumbbell', focus:['upper'], tier:2, muscle:'shoulders', weighted:true, cue:'10–12 reps'},
+  {name:'DB Bent-Over Row', equip:'dumbbell', focus:['upper'], tier:2, muscle:'back', weighted:true, cue:'10–12 reps'},
+  {name:'DB Renegade Row', equip:'dumbbell', focus:['full','upper'], tier:3, muscle:'back', weighted:true, cue:'8–10 reps per side'},
+  {name:'DB Reverse Lunge', equip:'dumbbell', focus:['legs'], tier:2, muscle:'quads', weighted:true, cue:'10 reps per leg'},
+  {name:'DB Russian Twist', equip:'dumbbell', focus:['core'], tier:1, muscle:'obliques', weighted:true, cue:'16–20 total reps'},
+  {name:'DB Thruster', equip:'dumbbell', focus:['full'], tier:3, muscle:'fullbody', weighted:true, cue:'8–10 reps'},
+  {name:'DB Curl to Press', equip:'dumbbell', focus:['upper'], tier:1, muscle:'shoulders', weighted:true, cue:'10–12 reps'},
 
   // Incline walking treadmill
-  {name:'Incline Power Walk', equip:'inclineTreadmill', focus:['legs','full'], tier:1, cardio:true, cue:'Brisk pace, steep incline'},
-  {name:'Incline Walk Intervals', equip:'inclineTreadmill', focus:['legs','full'], tier:2, cardio:true, cue:'Alternate fast/steady pace'},
+  {name:'Incline Power Walk', equip:'inclineTreadmill', focus:['legs','full'], tier:1, muscle:'legs', cardio:true, cue:'Brisk pace, steep incline'},
+  {name:'Incline Walk Intervals', equip:'inclineTreadmill', focus:['legs','full'], tier:2, muscle:'legs', cardio:true, cue:'Alternate fast/steady pace'},
 
   // Full treadmill
-  {name:'Treadmill Sprint Interval', equip:'treadmill', focus:['full'], tier:3, cardio:true, cue:'Hard sprint pace'},
-  {name:'Treadmill Jog', equip:'treadmill', focus:['full'], tier:2, cardio:true, cue:'Steady jogging pace'},
-  {name:'Treadmill Fast Walk', equip:'treadmill', focus:['full','legs'], tier:1, cardio:true, cue:'Brisk walking pace'},
+  {name:'Treadmill Sprint Interval', equip:'treadmill', focus:['full'], tier:3, muscle:'legs', cardio:true, cue:'Hard sprint pace'},
+  {name:'Treadmill Jog', equip:'treadmill', focus:['full'], tier:2, muscle:'legs', cardio:true, cue:'Steady jogging pace'},
+  {name:'Treadmill Fast Walk', equip:'treadmill', focus:['full','legs'], tier:1, muscle:'legs', cardio:true, cue:'Brisk walking pace'},
 
   // TRX
-  {name:'TRX Row', equip:'trx', focus:['upper'], tier:2, cue:'10–12 reps'},
-  {name:'TRX Chest Press', equip:'trx', focus:['upper'], tier:2, cue:'10–12 reps'},
-  {name:'TRX Squat', equip:'trx', focus:['legs'], tier:1, cue:'12–15 reps'},
-  {name:'TRX Pike', equip:'trx', focus:['core'], tier:3, cue:'8–10 reps'},
-  {name:'TRX Hamstring Curl', equip:'trx', focus:['legs'], tier:2, cue:'10–12 reps'},
-  {name:'TRX Mountain Climbers', equip:'trx', focus:['core','full'], tier:3, cue:'20–24 total reps'},
-  {name:'TRX Y-Fly', equip:'trx', focus:['upper'], tier:1, cue:'10–12 reps'},
+  {name:'TRX Row', equip:'trx', focus:['upper'], tier:2, muscle:'back', cue:'10–12 reps'},
+  {name:'TRX Chest Press', equip:'trx', focus:['upper'], tier:2, muscle:'chest', cue:'10–12 reps'},
+  {name:'TRX Squat', equip:'trx', focus:['legs'], tier:1, muscle:'quads', cue:'12–15 reps'},
+  {name:'TRX Pike', equip:'trx', focus:['core'], tier:3, muscle:'abs', cue:'8–10 reps'},
+  {name:'TRX Hamstring Curl', equip:'trx', focus:['legs'], tier:2, muscle:'hamstrings', cue:'10–12 reps'},
+  {name:'TRX Mountain Climbers', equip:'trx', focus:['core','full'], tier:3, muscle:'abs', cue:'20–24 total reps'},
+  {name:'TRX Y-Fly', equip:'trx', focus:['upper'], tier:1, muscle:'back', cue:'10–12 reps'},
 
   // Skipping rope
-  {name:'Skipping Rope — Basic', equip:'rope', focus:['full'], tier:2, cardio:true, cue:'Steady pace'},
-  {name:'Skipping Rope — High Knees', equip:'rope', focus:['full','legs'], tier:3, cardio:true, cue:'Fast pace, knees up'},
-  {name:'Skipping Rope — Slow Pace', equip:'rope', focus:['full'], tier:1, cardio:true, cue:'Easy recovery pace'}
+  {name:'Skipping Rope — Basic', equip:'rope', focus:['full'], tier:2, muscle:'legs', cardio:true, cue:'Steady pace'},
+  {name:'Skipping Rope — High Knees', equip:'rope', focus:['full','legs'], tier:3, muscle:'legs', cardio:true, cue:'Fast pace, knees up'},
+  {name:'Skipping Rope — Slow Pace', equip:'rope', focus:['full'], tier:1, muscle:'legs', cardio:true, cue:'Easy recovery pace'}
 ];
 
 /* =========================================================================
@@ -351,47 +351,116 @@ function scaleCue(ex, factor){
   return ex.cue.replace(m[0], lo + '–' + hi);
 }
 
-function pickMainExercises(pool, focus, tiersAllowed, count){
-  let candidates = pool.filter(e => tiersAllowed.includes(e.tier));
-  if (focus === 'recommended'){
-    // round-robin across categories for balanced coverage
-    const cats = ['legs','upper','core','full'];
-    const used = new Set();
-    const chosen = [];
-    let guard = 0;
-    while (chosen.length < count && guard < 200){
-      const cat = cats[guard % cats.length];
-      const opts = candidates.filter(e => e.focus.includes(cat) && !used.has(e.name));
-      if (opts.length){
-        const pickd = opts[Math.floor(Math.random()*opts.length)];
-        chosen.push(pickd);
-        used.add(pickd.name);
-      }
-      guard++;
-    }
-    // fill remainder randomly if categories ran dry
-    if (chosen.length < count){
-      const remaining = candidates.filter(e => !used.has(e.name));
-      shuffle(remaining);
-      for (const e of remaining){
-        if (chosen.length >= count) break;
-        chosen.push(e); used.add(e.name);
-      }
-    }
-    return chosen;
-  } else {
-    candidates = candidates.filter(e => e.focus.includes(focus) || e.focus.includes('full'));
-    shuffle(candidates);
-    return candidates.slice(0, count);
-  }
-}
-
 function shuffle(arr){
   for (let i = arr.length - 1; i > 0; i--){
     const j = Math.floor(Math.random() * (i + 1));
     [arr[i], arr[j]] = [arr[j], arr[i]];
   }
   return arr;
+}
+
+function focusMatches(e, focus){
+  return focus === 'recommended' ? true : (e.focus.includes(focus) || e.focus.includes('full'));
+}
+
+/* ---------------- Workout history (cross-session muscle recovery) ----------------
+   Stored in localStorage so two consecutive sessions (e.g. today/tomorrow) don't
+   hammer the same muscle group at moderate/high intensity back-to-back. */
+const RECENCY_WINDOW_HOURS = 48;
+
+function loadHistory(){
+  try { return JSON.parse(localStorage.getItem('novaxa_history') || '[]'); } catch(e){ return []; }
+}
+function saveHistoryEntry(mainExercises){
+  try {
+    const history = loadHistory();
+    history.push({ ts: Date.now(), exercises: mainExercises.map(e => ({name:e.name, muscle:e.muscle, tier:e.tier})) });
+    const cutoff = Date.now() - 14*24*60*60*1000; // keep 2 weeks max
+    localStorage.setItem('novaxa_history', JSON.stringify(history.filter(h => h.ts >= cutoff)));
+  } catch(e){}
+}
+function getRecentMuscles(history, windowHours){
+  const cutoff = Date.now() - windowHours*60*60*1000;
+  const muscles = new Set();
+  history.forEach(h => { if (h.ts >= cutoff) h.exercises.forEach(e => { if (e.tier >= 2 && e.muscle) muscles.add(e.muscle); }); });
+  return muscles;
+}
+function getRecentNames(history, windowHours){
+  const cutoff = Date.now() - windowHours*60*60*1000;
+  const names = new Set();
+  history.forEach(h => { if (h.ts >= cutoff) h.exercises.forEach(e => names.add(e.name)); });
+  return names;
+}
+
+/* ---------------- Main exercise selection ----------------
+   Rules (in priority order, each relaxed only if it can't fill the set):
+   1. Guarantee at least one pick per piece of equipment the user actually checked
+      (fixes gear you selected never showing up).
+   2. Cap Body weight picks at ~50% of slots when other equipment is also selected
+      (fixes bodyweight drowning out the gear you checked).
+   3. Avoid muscles/exercises trained at tier 2-3 in the last 48h (fixes doing the
+      same hard move on the same muscle two days in a row).
+   4. Only if the above leave too few candidates, relax them one at a time so the
+      set never comes up short. */
+function buildMainSelection(opts){
+  const {pool, focus, tiersAllowed, count, equipmentChecked, recentMuscles, recentNames} = opts;
+  const bodyweightChecked = equipmentChecked.includes('bodyweight');
+  const otherEquip = shuffle(equipmentChecked.filter(k => k !== 'bodyweight').slice());
+  const maxBW = !bodyweightChecked ? 0 : (otherEquip.length === 0 ? count : Math.ceil(count/2));
+
+  const chosen = [];
+  const usedNames = new Set();
+  let bwCount = 0;
+
+  function base(e){ return tiersAllowed.includes(e.tier) && focusMatches(e, focus) && !usedNames.has(e.name); }
+  function fresh(e){ return (e.tier < 2 || !recentMuscles.has(e.muscle)) && !recentNames.has(e.name); }
+  function bwOk(e){ return e.equip !== 'bodyweight' || bwCount < maxBW; }
+
+  function tryAdd(ex){
+    if (!ex) return false;
+    chosen.push(ex); usedNames.add(ex.name);
+    if (ex.equip === 'bodyweight') bwCount++;
+    return true;
+  }
+
+  // Pass 1: one guaranteed slot per selected non-bodyweight equipment type
+  for (const eq of otherEquip){
+    if (chosen.length >= count) break;
+    let candidates = pool.filter(e => e.equip === eq && base(e) && fresh(e));
+    if (!candidates.length) candidates = pool.filter(e => e.equip === eq && base(e));
+    if (candidates.length) tryAdd(candidates[Math.floor(Math.random()*candidates.length)]);
+  }
+
+  // Pass 2: round-robin across muscle categories, respecting bodyweight cap + recency
+  const cats = ['legs','upper','core','full'];
+  let guard = 0;
+  while (chosen.length < count && guard < 400){
+    const cat = cats[guard % cats.length];
+    const candidates = pool.filter(e => e.focus.includes(cat) && base(e) && fresh(e) && bwOk(e));
+    if (candidates.length) tryAdd(candidates[Math.floor(Math.random()*candidates.length)]);
+    guard++;
+  }
+
+  // Pass 3: relax recency (allow recently-worked muscles back in) if still short
+  guard = 0;
+  while (chosen.length < count && guard < 400){
+    const cat = cats[guard % cats.length];
+    const candidates = pool.filter(e => e.focus.includes(cat) && base(e) && bwOk(e));
+    if (candidates.length) tryAdd(candidates[Math.floor(Math.random()*candidates.length)]);
+    guard++;
+  }
+
+  // Pass 4: relax bodyweight cap if still short (fills the set rather than coming up empty)
+  if (chosen.length < count){
+    const candidates = pool.filter(e => base(e));
+    shuffle(candidates);
+    for (const e of candidates){
+      if (chosen.length >= count) break;
+      tryAdd(e);
+    }
+  }
+
+  return chosen;
 }
 
 function buildFillerBlock(pool, seconds, equipSet){
@@ -411,7 +480,8 @@ function buildFillerBlock(pool, seconds, equipSet){
 
 function generateWorkout(params){
   const {recovery, focus, equipment, kettlebellKg, dumbbellKg, minutes} = params;
-  const equipSet = new Set(['bodyweight', ...equipment]);
+  const equipSet = new Set(equipment); // only what the user actually checked
+  const warmupEquipSet = new Set(['bodyweight', ...equipment]); // mobility work needs no gear either way
   const totalSeconds = minutes * 60;
   const warmupSeconds = minutes === 20 ? 120 : 150; // 2 or 2.5 min
   const cooldownSeconds = minutes === 20 ? 120 : 150;
@@ -431,9 +501,23 @@ function generateWorkout(params){
     return !(f === 2 && e.tier === 3);
   });
 
+  const history = loadHistory();
+  const recentMuscles = getRecentMuscles(history, RECENCY_WINDOW_HOURS);
+  const recentNames = getRecentNames(history, RECENCY_WINDOW_HOURS);
+
   const exCount = minutes === 20 ? 5 : 6;
-  let chosen = pickMainExercises(pool, focus, tiers, Math.min(exCount, Math.max(3, pool.length)));
-  if (!chosen.length) chosen = pickMainExercises(MAIN_POOL.filter(e=>e.equip==='bodyweight'), focus, [1,2,3], 4);
+  let chosen = buildMainSelection({
+    pool, focus, tiersAllowed: tiers, count: Math.min(exCount, Math.max(3, pool.length)),
+    equipmentChecked: equipment, recentMuscles, recentNames
+  });
+  if (!chosen.length){
+    chosen = buildMainSelection({
+      pool: MAIN_POOL.filter(e=>e.equip==='bodyweight'), focus, tiersAllowed:[1,2,3], count:4,
+      equipmentChecked:['bodyweight'], recentMuscles:new Set(), recentNames:new Set()
+    });
+  }
+  const chosenMuscles = new Set(chosen.map(e=>e.muscle));
+  const avoidedMuscles = [...recentMuscles].filter(m => !chosenMuscles.has(m));
 
   // per-exercise rest bump from load
   const perExRest = chosen.map(e => {
@@ -478,20 +562,21 @@ function generateWorkout(params){
     carryToCooldown = mainSequence.pop().seconds;
   }
 
-  // warmup block
+  // warmup block (mobility work — always allowed regardless of equipment checkboxes)
   const wPool = (equipSet.has('inclineTreadmill') || equipSet.has('treadmill'))
     ? [...WARMUP_TREADMILL.filter(w => equipSet.has(w.equip)), ...WARMUP_POOL.slice(0,1)]
     : WARMUP_POOL;
-  const warmupItems = buildFillerBlock(wPool, warmupSeconds, equipSet).map(x => ({...x, kind:'warmup'}));
+  const warmupItems = buildFillerBlock(wPool, warmupSeconds, warmupEquipSet).map(x => ({...x, kind:'warmup'}));
 
-  const cooldownItems = buildFillerBlock(COOLDOWN_POOL, cooldownSeconds + carryToCooldown, equipSet).map(x => ({...x, kind:'cooldown'}));
+  const cooldownItems = buildFillerBlock(COOLDOWN_POOL, cooldownSeconds + carryToCooldown, warmupEquipSet).map(x => ({...x, kind:'cooldown'}));
 
   const sequence = [...warmupItems, ...mainSequence, ...cooldownItems];
   const grandTotal = sequence.reduce((s,x)=>s+x.seconds,0);
 
   return {
     sequence, band, rounds, mainSeconds, warmupSeconds, cooldownSeconds,
-    grandTotal, exerciseCount: chosen.length
+    grandTotal, exerciseCount: chosen.length, avoidedMuscles,
+    mainExercises: chosen.map(e => ({name:e.name, muscle:e.muscle, tier:e.tier}))
   };
 }
 
@@ -663,7 +748,8 @@ function startSession(workout){
   document.getElementById('doneScreen').style.display = 'none';
   document.getElementById('sessionScreen').style.display = 'block';
   document.getElementById('sessionMeta').textContent =
-    `${session.band[0].toUpperCase()+session.band.slice(1)} recovery • ${session.rounds} rounds • ${session.exerciseCount} exercises`;
+    `${session.band[0].toUpperCase()+session.band.slice(1)} recovery • ${session.rounds} rounds • ${session.exerciseCount} exercises` +
+    (session.avoidedMuscles && session.avoidedMuscles.length ? ` • resting: ${session.avoidedMuscles.join(', ')}` : '');
   renderPlanList();
   enterStep(0);
   tick();
@@ -751,6 +837,7 @@ function finishSession(){
   const mins = Math.round(session.grandTotal/60);
   document.getElementById('doneSummary').textContent =
     `${mins} min session • ${session.rounds} rounds • ${session.exerciseCount} exercises • ${session.band} recovery`;
+  saveHistoryEntry(session.mainExercises);
   beep(1200,0.2,0.2);
 }
 document.getElementById('doneBtn').addEventListener('click', () => {
